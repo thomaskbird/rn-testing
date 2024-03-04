@@ -9,7 +9,7 @@ const useCalendar = () => {
   const [month, setMonth] = useState<number>(currentDate.month() + 1);
   const [start, setStart] = useState<DayType | undefined>(undefined);
   const [end, setEnd] = useState<DayType | undefined>(undefined);
-  const [calendarData, setCalendarData] = useState<any>(undefined);
+  const [calendarData, setCalendarData] = useState<any>([]);
 
   const handlePagination = (dir: 'next' | 'prev') => {
     const nextTimestamp =
@@ -17,6 +17,8 @@ const useCalendar = () => {
         ? currentDate.add(1, 'month')
         : currentDate.subtract(1, 'month');
 
+    setStart(undefined);
+    setEnd(undefined);
     setMonth(nextTimestamp.month() + 1);
     setYear(nextTimestamp.year());
     setCurrentDate(nextTimestamp);

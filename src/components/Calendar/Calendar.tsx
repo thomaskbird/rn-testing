@@ -45,31 +45,31 @@ const Calendar = ({}: CalendarTypes) => {
         </Pressable>
       </View>
       <View style={calendarStyles.content}>
-        {calendarData &&
-          calendarData.map((week: DayType[]) => (
-            <CalendarRow>
-              {week.map((day: DayType) => {
-                const isStart = start?.digit === day.digit;
-                const isEnd = end?.digit === day.digit;
+        {calendarData.map((week: DayType[], idx: number) => (
+          <CalendarRow key={idx}>
+            {week.map((day: DayType) => {
+              const isStart = start?.digit === day.digit;
+              const isEnd = end?.digit === day.digit;
 
-                const activeState = determineActiveState(
-                  start,
-                  end,
-                  day,
-                  isStart,
-                  isEnd,
-                );
+              const activeState = determineActiveState(
+                start,
+                end,
+                day,
+                isStart,
+                isEnd,
+              );
 
-                return (
-                  <CalendarCell
-                    activeState={activeState}
-                    day={day}
-                    onTouch={pressedDay => handleCellClick(pressedDay)}
-                  />
-                );
-              })}
-            </CalendarRow>
-          ))}
+              return (
+                <CalendarCell
+                  day={day}
+                  key={day.id}
+                  activeState={activeState}
+                  onTouch={pressedDay => handleCellClick(pressedDay)}
+                />
+              );
+            })}
+          </CalendarRow>
+        ))}
       </View>
     </View>
   );

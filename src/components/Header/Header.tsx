@@ -19,7 +19,7 @@ const Header = ({isOverlapVisible = true}: HeaderType) => {
         </View>
         <View>
           <Image
-            source={require('../../assets/images/chris-lemar.jpg')}
+            source={require('../../assets/images/cl.jpg')}
             style={styles.avatar}
           />
         </View>

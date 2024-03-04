@@ -2,18 +2,21 @@ import calendarStyles from './Calendar.styles.ts';
 import {Pressable, Text, View} from 'react-native';
 import CalendarRow from './CalendarRow.tsx';
 import CalendarCell from './CalendarCell.tsx';
-import {useEffect, useState} from 'react';
-import {determineActiveState, generateCalendarData} from './Calendar.utils.ts';
-import moment from 'moment';
+import {determineActiveState} from './Calendar.utils.ts';
 import {CalendarTypes, DayType} from './Calendar.types.ts';
+import useCalendar from './useCalendar.ts';
 
 const Calendar = ({}: CalendarTypes) => {
-  const [currentDate, setCurrentDate] = useState(moment());
-  const [year, setYear] = useState(currentDate.year());
-  const [month, setMonth] = useState(currentDate.month() + 1);
-  const [start, setStart] = useState<DayType | undefined>(undefined);
-  const [end, setEnd] = useState<DayType | undefined>(undefined);
-  const [calendarData, setCalendarData] = useState<any>(undefined);
+  const {
+    calendarData,
+    handlePagination,
+    month,
+    year,
+    start,
+    end,
+    setStart,
+    setEnd,
+  } = useCalendar();
 
   const handleCellClick = (pressedDay: DayType) => {
     if (start && end) {
@@ -27,21 +30,6 @@ const Calendar = ({}: CalendarTypes) => {
       setStart(pressedDay);
     }
   };
-
-  const handlePagination = (dir: 'next' | 'prev') => {
-    const nextTimestamp =
-      dir === 'next'
-        ? currentDate.add(1, 'month')
-        : currentDate.subtract(1, 'month');
-
-    setMonth(nextTimestamp.month() + 1);
-    setYear(nextTimestamp.year());
-    setCurrentDate(nextTimestamp);
-  };
-
-  useEffect(() => {
-    setCalendarData(generateCalendarData(year, month));
-  }, [year, month]);
 
   return (
     <View style={calendarStyles.wrapper}>
@@ -60,7 +48,7 @@ const Calendar = ({}: CalendarTypes) => {
         {calendarData &&
           calendarData.map((week: DayType[]) => (
             <CalendarRow>
-              {week.map(day => {
+              {week.map((day: DayType) => {
                 const isStart = start?.digit === day.digit;
                 const isEnd = end?.digit === day.digit;
 

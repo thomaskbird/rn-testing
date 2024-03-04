@@ -48,15 +48,28 @@ const calendarStyles = StyleSheet.create({
     borderBottomRightRadius: cellRadius,
     backgroundColor: cellActiveColor,
   },
+  calendarCellToday: {
+    ...calendarCellCommon,
+    borderRadius: 10,
+    backgroundColor: '#7099e8',
+  },
   calendarCellBetween: {
     ...calendarCellCommon,
     backgroundColor: '#cbe0fc',
   },
   calendarCellText: {
+    color: '#333',
+    fontWeight: '600',
     textAlign: 'center',
   },
   calendarCellTextInactive: {
     color: '#aaa',
+    fontWeight: '300',
+    textAlign: 'center',
+  },
+  calendarCellTextToday: {
+    color: '#fff',
+    fontWeight: '600',
     textAlign: 'center',
   },
 });

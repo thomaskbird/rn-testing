@@ -3,10 +3,15 @@ import calendarStyles from './Calendar.styles.ts';
 import {CalendarCellType} from './Calendar.types.ts';
 import moment from 'moment';
 
-const CalendarCell = ({day, activeState, onTouch}: CalendarCellType) => {
+const CalendarCell = ({
+  day,
+  isCurrentMonth,
+  activeState,
+  onTouch,
+}: CalendarCellType) => {
   const today = moment().date();
   const pressableStyle =
-    today === day.digit && day.activeMonth
+    today === day.digit && day.activeMonth && isCurrentMonth
       ? calendarStyles.calendarCellToday
       : activeState === 'between'
       ? calendarStyles.calendarCellBetween
@@ -16,7 +21,7 @@ const CalendarCell = ({day, activeState, onTouch}: CalendarCellType) => {
       ? calendarStyles.calendarCellActiveEnd
       : calendarStyles.calendarCell;
   const textStyle =
-    today === day.digit && day.activeMonth
+    today === day.digit && day.activeMonth && isCurrentMonth
       ? calendarStyles.calendarCellTextToday
       : day.activeMonth
       ? calendarStyles.calendarCellText

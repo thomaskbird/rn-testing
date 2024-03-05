@@ -8,10 +8,10 @@ import useCalendar from './useCalendar.ts';
 
 const Calendar = ({}: CalendarTypes) => {
   const {
+    isCurrentMonth,
     calendarData,
+    currentDate,
     handlePagination,
-    month,
-    year,
     start,
     end,
     setStart,
@@ -23,8 +23,12 @@ const Calendar = ({}: CalendarTypes) => {
       setStart(pressedDay);
       setEnd(undefined);
     } else if (start) {
-      if (start.digit !== pressedDay.digit && start.digit < pressedDay.digit) {
-        setEnd(pressedDay);
+      if (start.digit !== pressedDay.digit) {
+        if (start.digit < pressedDay.digit) {
+          setEnd(pressedDay);
+        } else {
+          setStart(pressedDay);
+        }
       }
     } else {
       setStart(pressedDay);
@@ -38,7 +42,7 @@ const Calendar = ({}: CalendarTypes) => {
           <Text>Prev</Text>
         </Pressable>
         <Text style={calendarStyles.headerText}>
-          {month}, {year}
+          {currentDate.format('MMMM, YYYY')}
         </Text>
         <Pressable onPress={() => handlePagination('next')}>
           <Text>Next</Text>
@@ -63,6 +67,7 @@ const Calendar = ({}: CalendarTypes) => {
                 <CalendarCell
                   day={day}
                   key={day.id}
+                  isCurrentMonth={isCurrentMonth}
                   activeState={activeState}
                   onTouch={pressedDay => handleCellClick(pressedDay)}
                 />

@@ -87,19 +87,20 @@ export const determineActiveState = (
   isStart: boolean,
   isEnd: boolean,
 ): activeStateType => {
+  const currentMonth = Number(moment().format('M'));
   let activeState: activeStateType = 'inactive';
 
   if (start && end) {
-    if (start?.digit < day.digit && end?.digit > day.digit) {
+    if (start?.digit < day.digit && end?.digit > day.digit && day.month >= start.month && day.month <= end.month) {
       activeState = 'between';
     }
   }
   if (isStart || isEnd) {
-    if (isStart) {
+    if (isStart && day.month === start?.month) {
       activeState = 'start';
     }
 
-    if (isEnd) {
+    if (isEnd && day.month === end?.month) {
       activeState = 'end';
     }
   }

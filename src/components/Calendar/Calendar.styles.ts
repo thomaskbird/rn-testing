@@ -27,6 +27,7 @@ const calendarStyles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginTop: -10
   },
   content: {},
   calendarRow: {

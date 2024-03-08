@@ -7,8 +7,9 @@ import Calendar from '../components/Calendar/Calendar.tsx';
 const HomeScreen = ({navigation}) => {
   return (
     <View style={{height: '100%', backgroundColor: '#333'}}>
-      <Dropdown />
       <Text>Home</Text>
+
+      <Dropdown />
 
       <Button
         text="Dashboard"

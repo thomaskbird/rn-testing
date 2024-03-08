@@ -5,13 +5,15 @@ import moment from 'moment';
 
 const CalendarCell = ({
   day,
-  isCurrentMonth,
   activeState,
+  multiMonth,
   onTouch,
 }: CalendarCellType) => {
   const today = moment().date();
+  const currentMonth = moment().format('M');
+
   const pressableStyle =
-    today === day.digit && day.activeMonth && isCurrentMonth
+    today === day.digit && Number(currentMonth) === day.month
       ? calendarStyles.calendarCellToday
       : activeState === 'between'
       ? calendarStyles.calendarCellBetween
@@ -21,14 +23,16 @@ const CalendarCell = ({
       ? calendarStyles.calendarCellActiveEnd
       : calendarStyles.calendarCell;
   const textStyle =
-    today === day.digit && day.activeMonth && isCurrentMonth
+    today === day.digit && Number(currentMonth) === day.month
       ? calendarStyles.calendarCellTextToday
       : day.activeMonth
       ? calendarStyles.calendarCellText
       : calendarStyles.calendarCellTextInactive;
 
   const handlePress = () => {
-    if (day.activeMonth) {
+    if (!multiMonth && day.activeMonth) {
+      onTouch(day);
+    } else {
       onTouch(day);
     }
   };

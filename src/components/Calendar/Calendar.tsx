@@ -5,10 +5,12 @@ import CalendarCell from './CalendarCell.tsx';
 import {determineActiveState} from './Calendar.utils.ts';
 import {CalendarTypes, DayType} from './Calendar.types.ts';
 import useCalendar from './useCalendar.ts';
+import {Entypo, FontAwesome} from "@expo/vector-icons";
 
-const Calendar = ({}: CalendarTypes) => {
+const Calendar = ({
+  multiMonth = true,
+}: CalendarTypes) => {
   const {
-    isCurrentMonth,
     calendarData,
     currentDate,
     handlePagination,
@@ -39,21 +41,21 @@ const Calendar = ({}: CalendarTypes) => {
     <View style={calendarStyles.wrapper}>
       <View style={calendarStyles.header}>
         <Pressable onPress={() => handlePagination('prev')}>
-          <Text>Prev</Text>
+          <FontAwesome name="chevron-left" />
         </Pressable>
         <Text style={calendarStyles.headerText}>
           {currentDate.format('MMMM, YYYY')}
         </Text>
         <Pressable onPress={() => handlePagination('next')}>
-          <Text>Next</Text>
+          <FontAwesome name="chevron-right" />
         </Pressable>
       </View>
       <View style={calendarStyles.content}>
         {calendarData.map((week: DayType[], idx: number) => (
           <CalendarRow key={idx}>
             {week.map((day: DayType) => {
-              const isStart = start?.digit === day.digit;
-              const isEnd = end?.digit === day.digit;
+              const isStart = start?.digit === day.digit && start.month === day.month;
+              const isEnd = end?.digit === day.digit && end.month === day.month;
 
               const activeState = determineActiveState(
                 start,
@@ -67,7 +69,7 @@ const Calendar = ({}: CalendarTypes) => {
                 <CalendarCell
                   day={day}
                   key={day.id}
-                  isCurrentMonth={isCurrentMonth}
+                  multiMonth={multiMonth}
                   activeState={activeState}
                   onTouch={pressedDay => handleCellClick(pressedDay)}
                 />

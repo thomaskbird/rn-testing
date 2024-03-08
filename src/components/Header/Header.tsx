@@ -1,4 +1,5 @@
 import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {Entypo, FontAwesome} from "@expo/vector-icons";
 
 export type HeaderType = {
   isOverlapVisible?: boolean;
@@ -9,10 +10,7 @@ const Header = ({isOverlapVisible = true}: HeaderType) => {
     <SafeAreaView style={styles.wrapper}>
       <View style={[styles.headerRow, styles.topRow]}>
         <View>
-          <Image
-            source={require('../../assets/images/menu.png')}
-            style={styles.icon}
-          />
+          <FontAwesome name="align-left" size={20} />
         </View>
         <View style={styles.columnMax}>
           <Text style={styles.logo}>Logo</Text>

@@ -12,9 +12,11 @@ export const generateCalendarData = (year: number, month: number) => {
   const monthDays: any[] = [];
   const end: any[] = [];
 
+  const prevMonth = month === 1 ? 12 : month - 1;
+  const nextMonth = month === 12 ? 1 : month + 1;
   const numOfDaysInPrevMonth = getNumOfDaysInMonth(
     year,
-    month === 1 ? 12 : month - 1,
+    prevMonth,
   );
   const numOfDaysInMonth = getNumOfDaysInMonth(year, month);
 
@@ -29,6 +31,7 @@ export const generateCalendarData = (year: number, month: number) => {
 
   for (let i = 0; i < firstDayOfMonth; i++) {
     start.push({
+      month: prevMonth,
       digit: numOfDaysInPrevMonth - i,
       currMonth: false,
     });
@@ -36,6 +39,7 @@ export const generateCalendarData = (year: number, month: number) => {
 
   for (let i = 0; i < numOfDaysInMonth; i++) {
     monthDays.push({
+      month: month,
       digit: i + 1,
       currMonth: true,
     });
@@ -44,6 +48,7 @@ export const generateCalendarData = (year: number, month: number) => {
   const numberOfEndDays = 7 - (lastDayOfMonth + 1);
   for (let i = 0; i < numberOfEndDays; i++) {
     end.push({
+      month: nextMonth,
       digit: i + 1,
       currMonth: false,
     });
@@ -59,6 +64,7 @@ export const generateCalendarData = (year: number, month: number) => {
     week.push({
       id: idx + 1,
       digit: day.digit,
+      month: day.month,
       activeMonth: day.currMonth,
     });
 
@@ -83,20 +89,18 @@ export const determineActiveState = (
 ): activeStateType => {
   let activeState: activeStateType = 'inactive';
 
-  if (day.activeMonth) {
-    if (start && end) {
-      if (start?.digit < day.digit && end?.digit > day.digit) {
-        activeState = 'between';
-      }
+  if (start && end) {
+    if (start?.digit < day.digit && end?.digit > day.digit) {
+      activeState = 'between';
     }
-    if (isStart || isEnd) {
-      if (isStart) {
-        activeState = 'start';
-      }
+  }
+  if (isStart || isEnd) {
+    if (isStart) {
+      activeState = 'start';
+    }
 
-      if (isEnd) {
-        activeState = 'end';
-      }
+    if (isEnd) {
+      activeState = 'end';
     }
   }
 

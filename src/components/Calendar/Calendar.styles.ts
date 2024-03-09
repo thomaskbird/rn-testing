@@ -5,6 +5,7 @@ const cellActiveColor = '#cbe0fc';
 
 const calendarCellCommon = {
   flex: 1,
+  marginVertical: 2,
   paddingVertical: 20,
   paddingHorizontal: 10,
 };

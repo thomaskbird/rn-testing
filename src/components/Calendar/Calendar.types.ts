@@ -1,7 +1,12 @@
 import {ReactNode} from 'react';
 
+export type CalendarApi = {
+  getValues(): [DayType | undefined, DayType | undefined];
+}
+
 export type CalendarTypes = {
   multiMonth?: boolean;
+  onReady?(api: CalendarApi): void,
 };
 
 export type CalendarRowType = {
@@ -20,5 +25,6 @@ export type DayType = {
   id: number;
   digit: number;
   month: number;
+  year: number;
   activeMonth: boolean;
 };

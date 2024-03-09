@@ -30,8 +30,10 @@ const CalendarCell = ({
       : calendarStyles.calendarCellTextInactive;
 
   const handlePress = () => {
-    if (!multiMonth && day.activeMonth) {
-      onTouch(day);
+    if (!multiMonth) {
+      if(day.activeMonth) {
+        onTouch(day);
+      }
     } else {
       onTouch(day);
     }

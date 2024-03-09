@@ -32,6 +32,7 @@ export const generateCalendarData = (year: number, month: number) => {
   for (let i = 0; i < firstDayOfMonth; i++) {
     start.push({
       month: prevMonth,
+      year: prevMonth === 12 ? year - 1 : year,
       digit: numOfDaysInPrevMonth - i,
       currMonth: false,
     });
@@ -40,6 +41,7 @@ export const generateCalendarData = (year: number, month: number) => {
   for (let i = 0; i < numOfDaysInMonth; i++) {
     monthDays.push({
       month: month,
+      year: year,
       digit: i + 1,
       currMonth: true,
     });
@@ -49,6 +51,7 @@ export const generateCalendarData = (year: number, month: number) => {
   for (let i = 0; i < numberOfEndDays; i++) {
     end.push({
       month: nextMonth,
+      year: nextMonth === 1 ? year + 1 : year,
       digit: i + 1,
       currMonth: false,
     });
@@ -65,6 +68,7 @@ export const generateCalendarData = (year: number, month: number) => {
       id: idx + 1,
       digit: day.digit,
       month: day.month,
+      year: day.year,
       activeMonth: day.currMonth,
     });
 
@@ -87,11 +91,15 @@ export const determineActiveState = (
   isStart: boolean,
   isEnd: boolean,
 ): activeStateType => {
-  const currentMonth = Number(moment().format('M'));
   let activeState: activeStateType = 'inactive';
 
   if (start && end) {
-    if (start?.digit < day.digit && end?.digit > day.digit && day.month >= start.month && day.month <= end.month) {
+    const startFormatted = `${start.year}-${formatDigitWithLeading(start.month.toString(10))}-${formatDigitWithLeading(start.digit.toString(10))}`;
+    const endFormatted = `${end.year}-${formatDigitWithLeading(end.month.toString(10))}-${formatDigitWithLeading(end.digit.toString(10))}`;
+    const currentFormatted = `${day.year}-${formatDigitWithLeading(day.month.toString(10))}-${formatDigitWithLeading(day.digit.toString(10))}`;
+    const isBetween = moment(currentFormatted).isBetween(startFormatted, endFormatted);
+
+    if (isBetween) {
       activeState = 'between';
     }
   }
